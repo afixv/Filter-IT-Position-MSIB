@@ -3,131 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MSIB IT Opportunities</title>
-    <link rel="icon" href="assets/ico.svg" type="image/png">
-    <style>
-      @keyframes blink {
-        50% {
-          background-color: #e8e8e8;
-        }
-      }
-      .placeholder {
-        width: 32px;
-        height: 32px;
-        border-radius: 10px;
-        background-color: #f1f1f1;
-        animation: blink 1.5s infinite alternate;
-      }
-      body {
-        font-family: "Arial", sans-serif;
-        margin: 0;
-        padding: 24px 64px;
-        background-color: #f9f9f9;
-      }
-      h1 {
-        color: #333;
-        text-align: center;
-      }
-      #opportunities-count {
-        font-size: 18px;
-        color: #555;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      th,
-      td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-      }
-      th {
-        background-color: #f4f4f4;
-      }
-      th:nth-child(1) {
-        width: 40%;
-      }
-      th:nth-child(2) {
-        width: 5%;
-      }
-      th:nth-child(3) {
-        width: 25%;
-      }
-      th:nth-child(4) {
-        width: 15%;
-      }
-      th:nth-child(5) {
-        width: 25%;
-      }
-      tr:nth-child(even) {
-        background-color: #f9f9f9;
-      }
-      tr:hover {
-        background-color: #f1f1f1;
-      }
-      .pagination {
-        display: flex;
-        justify-content: start;
-        margin-top: 20px;
-      }
-      .pagination button {
-        padding: 10px 15px;
-        margin: 0 4px;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-        border-radius: 8px;
-      }
-
-      .pagination button:hover {
-        background-color: #0067d4;
-        transition: all 0.3s ease;
-      }
-      .pagination button:disabled {
-        background-color: #ddd;
-        cursor: not-allowed;
-      }
-
-      .pagination-info {
-        color: #555;
-        margin-top: 10px;
-        margin-left: 6px;
-        font-size: 14px;
-      }
-
-      a {
-        color: #007bff;
-        text-decoration: none;
-      }
-    </style>
+    <title>MSIB Batch 7: IT Opportunities</title>
+    <link rel="icon" href="assets/ico.svg" type="image/png" />
+    <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <h1>MSIB IT Opportunities</h1>
+    <h1>MSIB Batch 7: IT Opportunities</h1>
     <p id="opportunities-count">Loading number of opportunities...</p>
+    <div class="table-container" style="overflow-x: auto">
+      <table id="opportunities-table">
+        <thead>
+          <tr>
+            <th>Posisi</th>
+            <th>Mitra</th>
+            <th></th>
+            <th>Lokasi</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
     <div class="pagination">
       <button id="prev" onclick="prevPage()">Previous</button>
       <button id="next" onclick="nextPage()">Next</button>
     </div>
     <div id="page-info" class="pagination-info"></div>
-    <table id="opportunities-table">
-      <thead>
-        <tr>
-          <th>Posisi</th>
-          <th >Mitra</th>
-          <th></th>
-          <th>Lokasi</th>
-          <th>Link</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
 
     <!-- Include PapaParse library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
@@ -170,16 +72,16 @@
               const placeholder = document.createElement("div");
               placeholder.classList.add("placeholder");
               const logo = document.createElement("img");
-              logo.style.display = "none"; 
+              logo.style.display = "none";
               logo.onload = function () {
                 logo.style.display = "block";
-                placeholder.style.display = "none"; 
+                placeholder.style.display = "none";
               };
               logo.src = row[key].trim();
               logo.alt = row["mitra_brand_name"].trim();
-              logo.style.width = "36px"; 
-              logo.style.height = "36px"; 
-              logo.style.objectFit = "contain"; 
+              logo.style.width = "36px";
+              logo.style.height = "36px";
+              logo.style.objectFit = "contain";
               td.appendChild(placeholder);
               td.appendChild(logo);
             } else if (key === "link") {
