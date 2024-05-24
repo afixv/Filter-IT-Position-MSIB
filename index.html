@@ -10,6 +10,11 @@
   <body>
     <h1>MSIB Batch 7: IT Opportunities</h1>
     <p id="opportunities-count">Loading number of opportunities...</p>
+    <input
+      type="text"
+      id="search"
+      placeholder="Cari mitra atau posisi ..."
+      class="search" />
     <div class="table-container" style="overflow-x: auto">
       <table id="opportunities-table">
         <thead>
@@ -38,23 +43,45 @@
       let currentPage = 1;
       let totalPages = 0;
       let data = [];
+      let originalData = [];
 
       async function loadCSV() {
-        const response = await fetch("MSIB_IT_updated_at_2024-05-24.csv");
-        const csvData = await response.text();
+        try {
+          const response = await fetch("MSIB_IT_updated_at_2024-05-24.csv");
 
-        Papa.parse(csvData, {
-          header: true,
-          skipEmptyLines: true,
-          complete: function (results) {
-            data = results.data;
-            totalPages = Math.ceil(data.length / rowsPerPage);
-            displayPage(currentPage);
-            document.getElementById(
-              "opportunities-count"
-            ).textContent = `Number of opportunities: ${data.length}`;
-          },
-        });
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const csvData = await response.text();
+
+          Papa.parse(csvData, {
+            header: true,
+            skipEmptyLines: true,
+            complete: function (results) {
+              if (results.errors.length) {
+                console.error("Parsing errors:", results.errors);
+                return;
+              }
+
+              data = results.data;
+              originalData = [...data]; // Store original data
+              totalPages = Math.ceil(data.length / rowsPerPage);
+
+              console.log("Data loaded:", data);
+
+              displayPage(currentPage);
+              document.getElementById(
+                "opportunities-count"
+              ).textContent = `Number of opportunities: ${data.length}`;
+            },
+            error: function (error) {
+              console.error("Parsing failed:", error);
+            },
+          });
+        } catch (error) {
+          console.error("Fetch error:", error);
+        }
       }
 
       function displayPage(page) {
@@ -63,6 +90,8 @@
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
         const pageData = data.slice(start, end);
+
+        console.log("Displaying page data:", pageData);
 
         pageData.forEach((row) => {
           const tr = document.createElement("tr");
@@ -78,7 +107,7 @@
                 placeholder.style.display = "none";
               };
               logo.src = row[key].trim();
-              logo.alt = row["mitra_brand_name"].trim();
+              logo.alt = row["mitra_brand_name"]?.trim() || "Logo";
               logo.style.width = "36px";
               logo.style.height = "36px";
               logo.style.objectFit = "contain";
@@ -91,7 +120,7 @@
               link.textContent = "Go to opportunity";
               td.appendChild(link);
             } else {
-              td.textContent = row[key].trim();
+              td.textContent = row[key]?.trim() || "";
             }
             tr.appendChild(td);
           }
@@ -119,6 +148,27 @@
           displayPage(currentPage);
         }
       }
+
+      function search() {
+        const searchTerm = document
+          .getElementById("search")
+          .value.trim()
+          .toLowerCase();
+        if (searchTerm === "") {
+          data = [...originalData]; // Reset data to original when search field is empty
+        } else {
+          data = originalData.filter((row) => {
+            return Object.values(row).some((value) =>
+              value.toLowerCase().includes(searchTerm)
+            );
+          });
+        }
+        totalPages = Math.ceil(data.length / rowsPerPage);
+        currentPage = 1; // Reset to page 1 after search
+        displayPage(currentPage);
+      }
+
+      document.getElementById("search").addEventListener("input", search);
 
       loadCSV();
     </script>

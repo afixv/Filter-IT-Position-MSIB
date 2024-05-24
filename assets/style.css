@@ -1,113 +1,128 @@
 @keyframes blink {
-    50% {
-      background-color: #e8e8e8;
-    }
+  50% {
+    background-color: #e8e8e8;
   }
-  .placeholder {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    background-color: #f1f1f1;
-    animation: blink 1.5s infinite alternate;
-  }
-  body {
-    font-family: "Arial", sans-serif;
-    margin: 0;
-    padding: 24px 64px;
-    background-color: #f9f9f9;
-  }
-  h1 {
-    color: #333;
-    text-align: center;
-  }
-  #opportunities-count {
-    font-size: 18px;
-    color: #555;
-    text-align: center;
-    margin-bottom: 20px;
-  }
+}
+.placeholder {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background-color: #f1f1f1;
+  animation: blink 1.5s infinite alternate;
+}
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 24px 64px;
+  background-color: #f9f9f9;
+}
+h1 {
+  color: #333;
+  text-align: center;
+}
+#opportunities-count {
+  font-size: 18px;
+  color: #555;
+  text-align: center;
+  margin-bottom: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+th {
+  background-color: #f4f4f4;
+}
+th:nth-child(1) {
+  width: 40%;
+}
+th:nth-child(2) {
+  width: 5%;
+}
+th:nth-child(3) {
+  width: 25%;
+}
+th:nth-child(4) {
+  width: 15%;
+}
+th:nth-child(5) {
+  width: 25%;
+}
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+tr:hover {
+  background-color: #f1f1f1;
+}
+.pagination {
+  display: flex;
+  justify-content: start;
+  margin-top: 20px;
+}
+.pagination button {
+  padding: 10px 15px;
+  margin: 0 4px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.pagination button:hover {
+  background-color: #0067d4;
+  transition: all 0.3s ease;
+}
+.pagination button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  color: #555;
+  margin-top: 10px;
+  margin-left: 6px;
+  font-size: 14px;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.search {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.search:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+@media screen and (max-width: 600px) {
   table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  th,
-  td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  th {
-    background-color: #f4f4f4;
-  }
-  th:nth-child(1) {
-    width: 40%;
-  }
-  th:nth-child(2) {
-    width: 5%;
-  }
-  th:nth-child(3) {
-    width: 25%;
-  }
-  th:nth-child(4) {
-    width: 15%;
-  }
-  th:nth-child(5) {
-    width: 25%;
-  }
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  tr:hover {
-    background-color: #f1f1f1;
-  }
-  .pagination {
-    display: flex;
-    justify-content: start;
-    margin-top: 20px;
-  }
-  .pagination button {
-    padding: 10px 15px;
-    margin: 0 4px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    border-radius: 8px;
-  }
-
-  .pagination button:hover {
-    background-color: #0067d4;
-    transition: all 0.3s ease;
-  }
-  .pagination button:disabled {
-    background-color: #ddd;
-    cursor: not-allowed;
-  }
-
-  .pagination-info {
-    color: #555;
-    margin-top: 10px;
-    margin-left: 6px;
     font-size: 14px;
   }
 
-  a {
-    color: #007bff;
-    text-decoration: none;
+  body {
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 24px;
+    background-color: #f9f9f9;
   }
-
-  @media screen and (max-width: 600px){
-    table {
-      font-size: 14px;
-    }
-
-    body {
-        font-family: "Arial", sans-serif;
-        margin: 0;
-        padding: 24px;
-        background-color: #f9f9f9;
-      }
-  }
+}
