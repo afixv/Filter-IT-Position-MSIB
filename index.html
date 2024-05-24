@@ -1,169 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MSIB IT Opportunities</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 24px 64px;
-            background-color: #f9f9f9;
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-        #opportunities-count {
-            font-size: 18px;
-            color: #555;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        th:nth-child(1) {
-            width: 50%;
-        }
-        th:nth-child(2) {
-            width: 25%;
-        }
-        th:nth-child(3) {
-            width: 25%;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        .pagination {
-            display: flex;
-            justify-content: start;
-            margin-top: 20px;
-        }
-        .pagination button {
-            padding: 10px 15px;
-            margin: 0 4px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            border-radius: 8px;
-        }
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 24px 64px;
+        background-color: #f9f9f9;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+      #opportunities-count {
+        font-size: 18px;
+        color: #555;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #f4f4f4;
+      }
+      th:nth-child(1) {
+        width: 50%;
+      }
+      th:nth-child(2) {
+        width: 15%;
+      }
+      th:nth-child(3) {
+        width: 15%;
+      }
+      th:nth-child(4) {
+        width: 20%;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+      .pagination {
+        display: flex;
+        justify-content: start;
+        margin-top: 20px;
+      }
+      .pagination button {
+        padding: 10px 15px;
+        margin: 0 4px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        border-radius: 8px;
+      }
 
-        .pagination button:hover {
-            background-color: #0067d4;
-            transition: all 0.3s ease;
-        }
-        .pagination button:disabled {
-            background-color: #ddd;
-            cursor: not-allowed;
-        }
+      .pagination button:hover {
+        background-color: #0067d4;
+        transition: all 0.3s ease;
+      }
+      .pagination button:disabled {
+        background-color: #ddd;
+        cursor: not-allowed;
+      }
 
-        .pagination-info {
-            color:#555;
-            margin-top: 10px;
-            margin-left: 6px;
-            font-size: 14px;
-        }
+      .pagination-info {
+        color: #555;
+        margin-top: 10px;
+        margin-left: 6px;
+        font-size: 14px;
+      }
+
+      a {
+        color: #007bff;
+        text-decoration: none;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>MSIB IT Opportunities</h1>
     <p id="opportunities-count">Loading number of opportunities...</p>
     <div class="pagination">
-        <button id="prev" onclick="prevPage()">Previous</button>
-        <button id="next" onclick="nextPage()">Next</button>
+      <button id="prev" onclick="prevPage()">Previous</button>
+      <button id="next" onclick="nextPage()">Next</button>
     </div>
     <div id="page-info" class="pagination-info"></div>
     <table id="opportunities-table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Mitra</th>
-                <th>Location</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Mitra</th>
+          <th>Location</th>
+          <th>Link</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
     </table>
 
     <!-- Include PapaParse library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
-        const rowsPerPage = 10;
-        let currentPage = 1;
-        let totalPages = 0;
-        let data = [];
+      const rowsPerPage = 10;
+      let currentPage = 1;
+      let totalPages = 0;
+      let data = [];
 
-        async function loadCSV() {
-            const response = await fetch('MSIB_IT_updated_at_2024-05-24.csv');
-            const csvData = await response.text();
+      async function loadCSV() {
+        const response = await fetch("MSIB_IT_updated_at_2024-05-24.csv");
+        const csvData = await response.text();
 
-            Papa.parse(csvData, {
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    data = results.data;
-                    totalPages = Math.ceil(data.length / rowsPerPage);
-                    displayPage(currentPage);
-                    document.getElementById('opportunities-count').textContent = `Number of opportunities: ${data.length}`;
-                }
-            });
-        }
+        Papa.parse(csvData, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function (results) {
+            data = results.data;
+            totalPages = Math.ceil(data.length / rowsPerPage);
+            displayPage(currentPage);
+            document.getElementById(
+              "opportunities-count"
+            ).textContent = `Number of opportunities: ${data.length}`;
+          },
+        });
+      }
 
-        function displayPage(page) {
-            const tableBody = document.querySelector('#opportunities-table tbody');
-            tableBody.innerHTML = '';
-            const start = (page - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-            const pageData = data.slice(start, end);
+      function displayPage(page) {
+        const tableBody = document.querySelector("#opportunities-table tbody");
+        tableBody.innerHTML = "";
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const pageData = data.slice(start, end);
 
-            pageData.forEach(row => {
-                const tr = document.createElement('tr');
-                for (const key in row) {
-                    const td = document.createElement('td');
-                    td.textContent = row[key].trim();
-                    tr.appendChild(td);
-                }
-                tableBody.appendChild(tr);
-            });
-
-            document.getElementById('prev').disabled = page === 1;
-            document.getElementById('next').disabled = page === totalPages;
-
-            document.getElementById('page-info').textContent = `Page ${page} of ${totalPages}`;
-        }
-
-        function nextPage() {
-            if (currentPage < totalPages) {
-                currentPage++;
-                displayPage(currentPage);
+        pageData.forEach((row) => {
+          const tr = document.createElement("tr");
+          for (const key in row) {
+            const td = document.createElement("td");
+            if (key === "link") {
+              const link = document.createElement("a");
+              link.href = row[key].trim();
+              link.target = "_blank";
+              link.textContent = "Lihat Lowongan";
+              td.appendChild(link);
+            } else {
+              td.textContent = row[key].trim();
             }
-        }
+            tr.appendChild(td);
+          }
+          tableBody.appendChild(tr);
+        });
 
-        function prevPage() {
-            if (currentPage > 1) {
-                currentPage--;
-                displayPage(currentPage);
-            }
-        }
+        document.getElementById("prev").disabled = page === 1;
+        document.getElementById("next").disabled = page === totalPages;
 
-        loadCSV();
+        document.getElementById(
+          "page-info"
+        ).textContent = `Page ${page} of ${totalPages}`;
+      }
+
+      function nextPage() {
+        if (currentPage < totalPages) {
+          currentPage++;
+          displayPage(currentPage);
+        }
+      }
+
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          displayPage(currentPage);
+        }
+      }
+
+      loadCSV();
     </script>
-</body>
+  </body>
 </html>
