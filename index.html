@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MSIB IT Opportunities</title>
     <style>
+      @keyframes blink {
+        50% {
+          background-color: #e8e8e8;
+        }
+      }
+      .placeholder {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        background-color: #f1f1f1;
+        animation: blink 1.5s infinite alternate;
+      }
       body {
         font-family: "Arial", sans-serif;
         margin: 0;
@@ -38,16 +50,19 @@
         background-color: #f4f4f4;
       }
       th:nth-child(1) {
-        width: 50%;
+        width: 40%;
       }
       th:nth-child(2) {
-        width: 15%;
+        width: 5%;
       }
       th:nth-child(3) {
-        width: 15%;
+        width: 25%;
       }
       th:nth-child(4) {
-        width: 20%;
+        width: 15%;
+      }
+      th:nth-child(5) {
+        width: 25%;
       }
       tr:nth-child(even) {
         background-color: #f9f9f9;
@@ -105,6 +120,7 @@
         <tr>
           <th>Name</th>
           <th>Mitra</th>
+          <th></th>
           <th>Location</th>
           <th>Link</th>
         </tr>
@@ -115,7 +131,7 @@
     <!-- Include PapaParse library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
-      const rowsPerPage = 10;
+      const rowsPerPage = 8;
       let currentPage = 1;
       let totalPages = 0;
       let data = [];
@@ -149,11 +165,27 @@
           const tr = document.createElement("tr");
           for (const key in row) {
             const td = document.createElement("td");
-            if (key === "link") {
+            if (key === "logo") {
+              const placeholder = document.createElement("div");
+              placeholder.classList.add("placeholder");
+              const logo = document.createElement("img");
+              logo.style.display = "none"; 
+              logo.onload = function () {
+                logo.style.display = "block";
+                placeholder.style.display = "none"; 
+              };
+              logo.src = row[key].trim();
+              logo.alt = row["mitra_brand_name"].trim();
+              logo.style.width = "36px"; 
+              logo.style.height = "36px"; 
+              logo.style.objectFit = "contain"; 
+              td.appendChild(placeholder);
+              td.appendChild(logo);
+            } else if (key === "link") {
               const link = document.createElement("a");
               link.href = row[key].trim();
               link.target = "_blank";
-              link.textContent = "Lihat Lowongan";
+              link.textContent = "Go to opportunity";
               td.appendChild(link);
             } else {
               td.textContent = row[key].trim();
