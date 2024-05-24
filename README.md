@@ -2,6 +2,8 @@
 
 This project retrieves internship opportunities from the [Magang Kampus Merdeka](kampusmerdeka.kemdikbud.go.id/program/magang/browse) and filters them for IT-related positions. The filtered data is then saved into both Excel and CSV formats.
 
+You can also view the filtered data on the [Github Pages](https://afixv.github.io/Filter-IT-Position-MSIB/) of this repository.
+
 ## Table of Contents
 
 - [Introduction](#introduction)
