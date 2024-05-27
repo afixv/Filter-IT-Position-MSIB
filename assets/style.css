@@ -114,6 +114,29 @@ a {
   outline: none;
 }
 
+.filters {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.filters button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.filters button.active {
+  background-color: #007bff;
+  color: white;
+}
+
 @media screen and (max-width: 600px) {
   table {
     font-size: 14px;

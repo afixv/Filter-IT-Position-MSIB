@@ -3,17 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MSIB Batch 7: IT Opportunities</title>
+    <title>MSIB Batch 7 Opportunities</title>
     <link rel="icon" href="assets/ico.svg" type="image/png" />
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <h1>MSIB Batch 7: IT Opportunities</h1>
+    <h1>MSIB Batch 7 Opportunities</h1>
     <p id="opportunities-count">Loading number of opportunities...</p>
+    <div class="filters">
+      <button id="all" onclick="loadCSV('all')">All</button>
+      <button id="it" onclick="loadCSV('it')">IT</button>
+      <button id="finance" onclick="loadCSV('finance')">Finance</button>
+      <button id="hr" onclick="loadCSV('hr')">HR</button>
+      <button id="marketing" onclick="loadCSV('marketing')">Marketing</button>
+    </div>
     <input
       type="text"
       id="search"
-      placeholder="Cari mitra atau posisi ..."
+      placeholder="Cari mitra, lokasi, atau posisi ..."
       class="search" />
     <div class="table-container" style="overflow-x: auto">
       <table id="opportunities-table">
@@ -39,22 +46,29 @@
     <!-- Include PapaParse library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
-      const rowsPerPage = 8;
+      const rowsPerPage = 7;
       let currentPage = 1;
       let totalPages = 0;
       let data = [];
       let originalData = [];
 
-      async function loadCSV() {
-        try {
-          const response = await fetch("MSIB_IT_updated_at_2024-05-24.csv");
+      const csvFiles = {
+        all: "https://raw.githubusercontent.com/sebuahujicoba/MSIB-batch-data/main/MSIB_all_data.csv",
+        finance:
+          "https://raw.githubusercontent.com/sebuahujicoba/MSIB-batch-data/main/MSIB_Finance.csv",
+        hr: "https://raw.githubusercontent.com/sebuahujicoba/MSIB-batch-data/main/MSIB_HR.csv",
+        it: "https://raw.githubusercontent.com/sebuahujicoba/MSIB-batch-data/main/MSIB_IT.csv",
+        marketing:
+          "https://raw.githubusercontent.com/sebuahujicoba/MSIB-batch-data/main/MSIB_Marketing.csv",
+      };
 
+      async function loadCSV(category) {
+        try {
+          const response = await fetch(csvFiles[category]);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
-
           const csvData = await response.text();
-
           Papa.parse(csvData, {
             header: true,
             skipEmptyLines: true,
@@ -63,13 +77,9 @@
                 console.error("Parsing errors:", results.errors);
                 return;
               }
-
               data = results.data;
               originalData = [...data]; // Store original data
               totalPages = Math.ceil(data.length / rowsPerPage);
-
-              console.log("Data loaded:", data);
-
               displayPage(currentPage);
               document.getElementById(
                 "opportunities-count"
@@ -79,6 +89,18 @@
               console.error("Parsing failed:", error);
             },
           });
+
+          const buttons = document.querySelectorAll(".filters button");
+          buttons.forEach((button) => {
+            if (button.id === category) {
+              button.classList.add("active");
+            } else {
+              button.classList.remove("active");
+            }
+          });
+
+          // Reset pagination to page 1
+          currentPage = 1;
         } catch (error) {
           console.error("Fetch error:", error);
         }
@@ -90,8 +112,6 @@
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
         const pageData = data.slice(start, end);
-
-        console.log("Displaying page data:", pageData);
 
         pageData.forEach((row) => {
           const tr = document.createElement("tr");
@@ -155,7 +175,7 @@
           .value.trim()
           .toLowerCase();
         if (searchTerm === "") {
-          data = [...originalData]; // Reset data to original when search field is empty
+          data = [...originalData];
         } else {
           data = originalData.filter((row) => {
             return Object.values(row).some((value) =>
@@ -164,13 +184,14 @@
           });
         }
         totalPages = Math.ceil(data.length / rowsPerPage);
-        currentPage = 1; // Reset to page 1 after search
+        currentPage = 1;
         displayPage(currentPage);
       }
 
       document.getElementById("search").addEventListener("input", search);
 
-      loadCSV();
+      // Load default category (All) on page load
+      loadCSV("all");
     </script>
   </body>
 </html>
